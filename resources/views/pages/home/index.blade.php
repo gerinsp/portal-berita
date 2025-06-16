@@ -30,7 +30,7 @@
                                 </span>
                             </a>
                         @else
-                            <a href="{#">
+                            <a href="#">
                                 <span class="post-cat background{{ $headlineNo++; }} color-white">
                                     {{ $headline->post->category->name; }}
                                 </span>
