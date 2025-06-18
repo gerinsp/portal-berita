@@ -15,9 +15,7 @@
         @foreach ($headlines as $headline)
         <div class="post-thumb position-relative">
             <div class="thumb-overlay img-hover-slide position-relative" style="background-image: url({{ Storage::url($headline->post->post_image) }})">
-                <a class="img-link" href="{{ route('post-detail', $headline->post->slug) }}"></a>a\
-
-
+                <a class="img-link" href="{{ route('post-detail', $headline->post->slug) }}"></a>
                 <div class="post-content-overlay ml-30 mr-30">
                     <div class="entry-meta meta-0 font-small mb-20">
                         @php
