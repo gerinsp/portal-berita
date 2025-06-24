@@ -80,9 +80,14 @@ class ChatWidget {
         try {
             const response = await this.sendToAPI(message);
 
+            let responseMessage = response.message
+            if (response.message.error) {
+                responseMessage = "Chatbot is not available!";
+            }
+
             this.hideTyping();
 
-            this.addMessage(response.message, 'bot');
+            this.addMessage(responseMessage, 'bot');
         } catch (error) {
             this.hideTyping();
             this.addMessage('Sorry, something went wrong. Please try again.', 'bot');
