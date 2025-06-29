@@ -15,6 +15,7 @@ class ChatWidget {
         const closeChat = document.getElementById('closeChat');
         const sendButton = document.getElementById('sendButton');
         const messageInput = document.getElementById('messageInput');
+        const quickReplies = document.getElementById('quickReplies');
 
         chatButton.addEventListener('click', () => this.toggleChat());
         closeChat.addEventListener('click', () => this.closeChat());
@@ -28,6 +29,14 @@ class ChatWidget {
         });
 
         messageInput.addEventListener('input', () => this.autoResize());
+
+        quickReplies.addEventListener('click', (e) => {
+            if (e.target.classList.contains('quick-reply-btn') || e.target.closest('.quick-reply-btn')) {
+                const button = e.target.closest('.quick-reply-btn');
+                const message = button.getAttribute('data-message');
+                this.sendQuickReply(message);
+            }
+        });
     }
 
     toggleChat() {
@@ -75,6 +84,8 @@ class ChatWidget {
         input.value = '';
         this.autoResize();
 
+        this.hideQuickReplies();
+
         this.showTyping();
 
         try {
@@ -88,6 +99,8 @@ class ChatWidget {
             this.hideTyping();
 
             this.addMessage(responseMessage, 'bot');
+
+            this.showContextualQuickReplies(response);
         } catch (error) {
             this.hideTyping();
             this.addMessage('Sorry, something went wrong. Please try again.', 'bot');
@@ -167,6 +180,68 @@ class ChatWidget {
             localStorage.setItem('chat_session_id', sessionId);
         }
         return sessionId;
+    }
+
+    sendQuickReply(message) {
+        // Add user message to chat
+        this.addMessage(message, 'user');
+
+        // Hide quick replies
+        this.hideQuickReplies();
+
+        // Show typing indicator
+        this.showTyping();
+
+        // Send to API
+        this.sendToAPI(message).then(response => {
+            this.hideTyping();
+            this.addMessage(response.message, 'bot');
+            this.showContextualQuickReplies(response);
+        }).catch(error => {
+            this.hideTyping();
+            this.addMessage('Sorry, something went wrong. Please try again.', 'bot');
+            console.error('Chat API Error:', error);
+        });
+    }
+
+    hideQuickReplies() {
+        const quickReplies = document.getElementById('quickReplies');
+        quickReplies.style.display = 'none';
+    }
+
+    showQuickReplies() {
+        const quickReplies = document.getElementById('quickReplies');
+        quickReplies.style.display = 'flex';
+    }
+
+    showContextualQuickReplies(response) {
+        const quickReplies = document.getElementById('quickReplies');
+
+        // Clear existing quick replies
+        quickReplies.innerHTML = '';
+
+        // Add contextual quick replies based on bot response
+        let contextualReplies = [];
+
+        const responseText = response.message.toLowerCase();
+
+        contextualReplies = [
+            // { text: "Saya tertarik", icon: "😍" },
+            // { text: "Info lebih detail", icon: "📋" },
+            // { text: "Terima kasih", icon: "🙏" }
+        ];
+
+        // Add quick reply buttons
+        contextualReplies.forEach(reply => {
+            const button = document.createElement('button');
+            button.className = 'quick-reply-btn';
+            button.setAttribute('data-message', reply.text);
+            button.innerHTML = `<span class="icon">${reply.icon}</span>${reply.text}`;
+            quickReplies.appendChild(button);
+        });
+
+        // Show quick replies
+        this.showQuickReplies();
     }
 }
 

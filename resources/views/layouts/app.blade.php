@@ -87,6 +87,22 @@
                     <span>Chatbot is typing...</span>
                 </div>
 
+                <!-- Quick Replies -->
+                <div class="quick-replies" id="quickReplies">
+                    <button class="quick-reply-btn" data-message="Berita terkini">
+                        <span class="icon">👋</span>
+                        Berita terkini
+                    </button>
+                    <button class="quick-reply-btn" data-message="Layanan di tvri">
+                        <span class="icon">🙏</span>
+                        Layanan di tvri
+                    </button>
+                    <button class="quick-reply-btn" data-message="Form Pengajuan tvri">
+                        <span class="icon">📦</span>
+                        Daftar formulir Pengajuan di tvri
+                    </button>
+                </div>
+
                 <!-- Chat Input -->
                 <div class="chat-input">
                     <div class="input-group">
