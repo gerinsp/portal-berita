@@ -335,3 +335,9 @@ body {
 .quick-reply-btn .icon {
     font-size: 14px;
 }
+
+.message.bot a {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}

@@ -135,10 +135,19 @@ class ChatWidget {
         const now = new Date();
         const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-        messageDiv.innerHTML = `
-                    <div>${text}</div>
-                    <div class="message-time">${timeString}</div>
-                `;
+        const contentDiv = document.createElement('div');
+        contentDiv.innerHTML = text; // biarkan browser render HTML-nya
+
+        const timeDiv = document.createElement('div');
+        timeDiv.className = 'message-time';
+        timeDiv.textContent = timeString;
+
+        console.log('Bot message:', text);
+
+
+        messageDiv.appendChild(contentDiv);
+        messageDiv.appendChild(timeDiv);
+
 
         messagesContainer.appendChild(messageDiv);
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
